@@ -11,3 +11,13 @@ h1{
   padding: 20px;
   margin: 50px auto 0;
 }
+
+#startButton{
+  margin-top: 100px;
+}
+
+#answer1, #answer2, #answer3{
+  width: 300px;
+  margin: 20px 200px;
+  display: block;
+}
