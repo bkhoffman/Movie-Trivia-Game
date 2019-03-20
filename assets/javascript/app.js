@@ -1,11 +1,10 @@
-//var questions = ["question1", "questions2", "question3", "question4", "questions5", "question6", "question7", "question8"];
-//var questionsAsked = []; //push questions after asked
-// var answer1 = ["a", "b", "c"]
-// var answer2 = ["d", "e", "f"]
-// var answer3 = ["g", "h", "i"]
+
 var currentQuestion;
 var questionTimer = 31;
-//var timerRunning = false;
+var correctAnswers = 0;
+var incorrectAnswers = 0;
+var unansweredQuestions = 0;
+var timerRunning = false;
 
 //create an object holding the questions with the answers?
 var question = [
@@ -27,31 +26,39 @@ var question = [
   }
 ]
 //hide answer buttons
-$("#answer1").prop("hidden", true);
-$("#answer2").prop("hidden", true);
-$("#answer3").prop("hidden", true);
+$(".answerBtn").prop("hidden", true);
 
-$("#startButton").on("click", function startGame(){
+$("#startButton").on("click", function(){
   console.log("click");
-  //hide the start button, start the timer and show "Time Remaining"
-  $(this).prop("hidden",true);
+  startGame();
+});
+
+function startGame(){
+  //reset timer and vars
+  questionTimer = 31;
+  correctAnswers = 0;
+  incorrectAnswers = 0;
+  unansweredQuestions = 0;
+  //hide the start button, show "Time Remaining" and start the timer 
+  $("#startButton").prop("hidden", true);
   $("#timer-text").text("Time Remaining: ");
   intervalId = setInterval(count, 1000);
   
   //pick random question from questions array and display
+  // for(var i =0; i < question.length; i++){
+  //   console.log(i);
+  // };
   question.forEach(function(){
-    var currentQuestion = question[Math.floor(Math.random() * question.length)];
+    var currentQuestion = question[0];
     console.log("picked question", currentQuestion);
     $("#questions").text(currentQuestion.ask);
     $("#answer1").html(currentQuestion.answers[0]);
     $("#answer2").html(currentQuestion.answers[1]);
     $("#answer3").html(currentQuestion.answers[2]);
   });
-  $("#answer1").prop("hidden", false);
-  $("#answer2").prop("hidden", false);
-  $("#answer3").prop("hidden", false);
+  $(".answerBtn").prop("hidden", false);
 
-});
+};
 
 function count() {
   // Decrease time by 1 sec at a time and display timer
@@ -62,12 +69,16 @@ function count() {
 
 $(".answerBtn").click(function(event){
   console.log("answered selected", event);
-  var userAnswer = event;
-
-  //event is button with #answer1  BUT question.correct is a string "a"
-  if(userAnswer === question.correct){
+  //var userAnswer = event;
+  if($(event.target).data("name") === currentQuestion.answers){
     console.log("correct")
-  }
+  }else{
+    console.log("incorrect")
+  };
+  //event is button with #answer1  BUT question.correct is a string "a"
+  // if(userAnswer === question.correct){
+  //   console.log("correct")
+  // }
 });
 
 // $(".answerBtn").click(function answerCheck(answer){
