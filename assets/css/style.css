@@ -7,16 +7,18 @@ h1{
   width: 60%;
   height: 500px;
   color: white;
-  background-color: green;
+  background-color: rgb(7, 161, 136);
   padding: 20px;
   margin: 50px auto 0;
 }
 
 #startButton{
+  background-color: red;
+  border-color: red;
   margin-top: 100px;
 }
 
-#answer1, #answer2, #answer3{
+#answer1, #answer2, #answer3, #answerButton{
   width: 300px;
   margin: 20px 200px;
   display: block;

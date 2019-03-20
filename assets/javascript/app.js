@@ -1,9 +1,9 @@
 //var questions = ["question1", "questions2", "question3", "question4", "questions5", "question6", "question7", "question8"];
-var questionsAsked = []; //push questions after asked
+//var questionsAsked = []; //push questions after asked
 // var answer1 = ["a", "b", "c"]
 // var answer2 = ["d", "e", "f"]
 // var answer3 = ["g", "h", "i"]
-
+var currentQuestion;
 var questionTimer = 31;
 //var timerRunning = false;
 
@@ -11,70 +11,80 @@ var questionTimer = 31;
 var question = [
   {
     ask: "question1",
-    answer1 : "a",
-    answer2 : "b",
-    answer3 : "c",
-    correct : "2"
+    answers : ["a", "b", "c"],
+    correct : "a",
+    imgUrl: "https://media.giphy.com/media/TE3ZlXmfr5psI/giphy.gif"
   },
   {
     ask: "question2",
-    answer1 : "d",
-    answer2 : "e",
-    answer3 : "f",
-    correct : "3"
+    answers : ["d", "e", "f"],
+    correct : "f"
   },
   {
     ask: "question3",
-    answer1 : "g",
-    answer2 : "h",
-    answer3 : "i",
-    correct : "1"
+    answers : ["g", "h", "i"],
+    correct : "g"
   }
 ]
-
+//hide answer buttons
 $("#answer1").prop("hidden", true);
 $("#answer2").prop("hidden", true);
 $("#answer3").prop("hidden", true);
 
 $("#startButton").on("click", function startGame(){
   console.log("click");
-  //hide the start button, start the timer, show the questions and answers
+  //hide the start button, start the timer and show "Time Remaining"
   $(this).prop("hidden",true);
-  $("#timer-text").html("Time Remaining: ");
+  $("#timer-text").text("Time Remaining: ");
   intervalId = setInterval(count, 1000);
+  
   //pick random question from questions array and display
-  //var startQuestion = questions[Math.floor(Math.random() * questions.length)];
-  //$("#questions").text(startQuestion);
-
+  question.forEach(function(){
+    var currentQuestion = question[Math.floor(Math.random() * question.length)];
+    console.log("picked question", currentQuestion);
+    $("#questions").text(currentQuestion.ask);
+    $("#answer1").html(currentQuestion.answers[0]);
+    $("#answer2").html(currentQuestion.answers[1]);
+    $("#answer3").html(currentQuestion.answers[2]);
+  });
   $("#answer1").prop("hidden", false);
   $("#answer2").prop("hidden", false);
   $("#answer3").prop("hidden", false);
 
-  question.forEach(function(){
-    var startQuestion = question[Math.floor(Math.random() * question.length)];
-    console.log("picked question", startQuestion);
-    $("#questions").text(startQuestion.ask);
-    $("#answer1").html(startQuestion.answer1);
-    $("#answer2").html(startQuestion.answer2);
-    $("#answer3").html(startQuestion.answer3);
-  });
 });
 
 function count() {
-  // Decrease time by 1 sec at a time
+  // Decrease time by 1 sec at a time and display timer
   questionTimer--;
-  // Display the timer
   $("#timeRemaining").text(questionTimer);
 }
-//var answers = $("#answer1", "#answer2", "#answer3");
-$("#answer1").click(function answerCheck(){
-  console.log("answered!")
-  //if (question[0] && answer2 || question[1] && answer1 || question[2] && answer3 ){
-      //console.log("You Win") //flash picture
-  //} else {
-      //console.log("Incorrect") // show correct answer and picture
-  // };
+
+
+$(".answerBtn").click(function(event){
+  console.log("answered selected", event);
+  var userAnswer = event;
+
+  //event is button with #answer1  BUT question.correct is a string "a"
+  if(userAnswer === question.correct){
+    console.log("correct")
+  }
 });
+
+// $(".answerBtn").click(function answerCheck(answer){
+//   console.log("answered selected", answer);
+//   console.log(question[0].answer2);
+//   //assign click to var?
+  
+//   if(answer === question[0].answer2){
+//     console.log("winner");
+//     //console.log(question[0].correct);
+//   } else {
+//     console.log("incorrect");
+//   };
+//       //console.log("You Win") //flash picture
+//       //console.log("Incorrect") // show correct answer and picture
+  
+// });
 
 
 
