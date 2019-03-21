@@ -1,5 +1,6 @@
 
 var currentQuestion;
+var questionIndex =0;
 var questionTimer;
 var correctAnswers = 0;
 var incorrectAnswers = 0;
@@ -11,18 +12,18 @@ var questions = [
   {
     ask: "question1",
     answers : ["a", "b", "c"],
-    correct : "a",
+    correct : "b", 
     imgUrl: "https://media.giphy.com/media/TE3ZlXmfr5psI/giphy.gif"
   },
   {
     ask: "question2",
     answers : ["d", "e", "f"],
-    correct : "f"
+    correct : "answer3" //id of correct answer
   },
   {
     ask: "question3",
     answers : ["g", "h", "i"],
-    correct : "g"
+    correct : "answer1"
   }
 ]
 //hide answer buttons
@@ -43,35 +44,44 @@ function startGame(){
   $("#startButton").prop("hidden", true);
   loadQuestions();
 };
-  // for(var i =0; i < question.length; i++){
-  //   console.log(i);
-  // };
+ 
 function loadQuestions(){
-  questions.forEach(function(){
-    var currentQuestion = questions[0];
-    console.log("picked question", currentQuestion);
-    $("#questions").text(currentQuestion.ask);
-    $("#answer1").html(currentQuestion.answers[0]);
-    $("#answer2").html(currentQuestion.answers[1]);
-    $("#answer3").html(currentQuestion.answers[2]);
-  });
+  //set question/answers/correct answer starting a [0] position in object array
+  currentQuestion = questions[questionIndex].ask;
+  correct = questions[questionIndex].correct;
+  console.log("picked question", currentQuestion);
+  console.log("correct answer?", correct);
+  $("#questions").text(currentQuestion);
+  $("#answer1").html(questions[questionIndex].answers[0]);
+  $("#answer2").html(questions[questionIndex].answers[1]);
+  $("#answer3").html(questions[questionIndex].answers[2]);
+  
   //show the answer buttons
   $(".answerBtn").prop("hidden", false);
   //start the timer
   intervalId = setInterval(timer, 1000);
 
+
   //if one of the answer buttons is clicked...do something
   $(".answerBtn").click(function(event){
     console.log("answered selected", event);
-    //var userAnswer = event;
-    if($(event.target).data("name") === currentQuestion.answers){
-      console.log("correct")
+    clearInterval(intervalId); //stop timer
+    var userAnswer = event.target.textContent;  //assign button ID to userAnser and check for correct
+    console.log(userAnswer); 
+
+    if(userAnswer === correct){
+      console.log("correct", correct)
+      $("#questions").text("The correct answer is: "+ correct);
     }else{
       console.log("incorrect")
     };
+    //reset();
   });
 };
 
+function correctAnswer(){
+
+};
 
 function timer() {
   // Decrease time by 1 sec at a time and display timer
@@ -80,32 +90,9 @@ function timer() {
 }
 
 function reset(){
-  currentQuestion++;
+  //currentQuestion++;
 };
 
-
-
-
-//event is button with #answer1  BUT question.correct is a string "a"
-  // if(userAnswer === question.correct){
-  //   console.log("correct")
-  // }
-
-// $(".answerBtn").click(function answerCheck(answer){
-//   console.log("answered selected", answer);
-//   console.log(question[0].answer2);
-//   //assign click to var?
-  
-//   if(answer === question[0].answer2){
-//     console.log("winner");
-//     //console.log(question[0].correct);
-//   } else {
-//     console.log("incorrect");
-//   };
-//       //console.log("You Win") //flash picture
-//       //console.log("Incorrect") // show correct answer and picture
-  
-// });
 
 
 
