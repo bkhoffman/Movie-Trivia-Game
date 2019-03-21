@@ -1,13 +1,13 @@
 
 var currentQuestion;
-var questionTimer = 31;
+var questionTimer;
 var correctAnswers = 0;
 var incorrectAnswers = 0;
 var unansweredQuestions = 0;
 var timerRunning = false;
 
 //create an object holding the questions with the answers?
-var question = [
+var questions = [
   {
     ask: "question1",
     answers : ["a", "b", "c"],
@@ -35,51 +35,61 @@ $("#startButton").on("click", function(){
 
 function startGame(){
   //reset timer and vars
-  questionTimer = 31;
+  questionTimer = 30;
   correctAnswers = 0;
   incorrectAnswers = 0;
   unansweredQuestions = 0;
-  //hide the start button, show "Time Remaining" and start the timer 
+  //hide the start button
   $("#startButton").prop("hidden", true);
-  $("#timer-text").text("Time Remaining: ");
-  intervalId = setInterval(count, 1000);
-  
-  //pick random question from questions array and display
+  loadQuestions();
+};
   // for(var i =0; i < question.length; i++){
   //   console.log(i);
   // };
-  question.forEach(function(){
-    var currentQuestion = question[0];
+function loadQuestions(){
+  questions.forEach(function(){
+    var currentQuestion = questions[0];
     console.log("picked question", currentQuestion);
     $("#questions").text(currentQuestion.ask);
     $("#answer1").html(currentQuestion.answers[0]);
     $("#answer2").html(currentQuestion.answers[1]);
     $("#answer3").html(currentQuestion.answers[2]);
   });
+  //show the answer buttons
   $(".answerBtn").prop("hidden", false);
+  //start the timer
+  intervalId = setInterval(timer, 1000);
 
+  //if one of the answer buttons is clicked...do something
+  $(".answerBtn").click(function(event){
+    console.log("answered selected", event);
+    //var userAnswer = event;
+    if($(event.target).data("name") === currentQuestion.answers){
+      console.log("correct")
+    }else{
+      console.log("incorrect")
+    };
+  });
 };
 
-function count() {
+
+function timer() {
   // Decrease time by 1 sec at a time and display timer
   questionTimer--;
-  $("#timeRemaining").text(questionTimer);
+  $("#timeRemaining").text("Time Remaining: " + questionTimer);
 }
 
+function reset(){
+  currentQuestion++;
+};
 
-$(".answerBtn").click(function(event){
-  console.log("answered selected", event);
-  //var userAnswer = event;
-  if($(event.target).data("name") === currentQuestion.answers){
-    console.log("correct")
-  }else{
-    console.log("incorrect")
-  };
-  //event is button with #answer1  BUT question.correct is a string "a"
+
+
+
+//event is button with #answer1  BUT question.correct is a string "a"
   // if(userAnswer === question.correct){
   //   console.log("correct")
   // }
-});
 
 // $(".answerBtn").click(function answerCheck(answer){
 //   console.log("answered selected", answer);
