@@ -6,6 +6,7 @@ var correctAnswers;
 var incorrectAnswers;
 var unansweredQuestions;
 var timerRunning = false;
+var correct;
 
 //create an object holding the questions with the answers
 var questions = [
@@ -48,7 +49,7 @@ function startGame(){
   incorrectAnswers = 0;
   unansweredQuestions = 0;
   //hide the start button
-  $("#startButton").remove();
+  $("#startButton").prop("hidden", true);
   loadQuestions();
 };
  
@@ -68,29 +69,32 @@ function loadQuestions(){
   $(".answerBtn").prop("hidden", false);
   //start the timer
   intervalId = setInterval(timer, 1000);
+};
 
-  //if one of the answer buttons is clicked: stop timer, assign button tex to userAnswer
-  $(".answerBtn").click(function(event){
-    console.log(event);
-    clearInterval(intervalId); //stop timer
-    var userAnswer = event.target.textContent;
-    console.log(userAnswer); 
-    $(".answerBtn").prop("hidden", true);
+//if one of the answer buttons is clicked: stop timer, assign button tex to userAnswer
+$(".answerBtn").click(function(event){
+  console.log(event);
+  clearInterval(intervalId); //stop timer
+  var userAnswer = event.target.textContent;
+  console.log(userAnswer); 
+  $(".answerBtn").prop("hidden", true);
+  checkGuess(userAnswer);
+});
 
-    if (userAnswer === correct){
-      $("#questions").text("The correct answer is: "+ correct);
-      $("#questions").append("<h2>YOU ARE CORRECT!</h2>");
-      $("#questions").append("<img class=answerImage src=" + questions[questionIndex].imgUrl +">");
-      correctAnswers++;
-      reset();
-    } else {
-      $("#questions").text("The correct answer is: "+ correct);
-      $("#questions").append("<h2>YOU ARE INCORRECT!</h2>");
-      $("#questions").append("<img class=answerImage src= https://media.giphy.com/media/9Y5BbDSkSTiY8/giphy.gif >");
-      incorrectAnswers++;
-      reset();
-    };
-  });
+function checkGuess(userAnswer){
+  if (userAnswer === correct){
+    $("#questions").text("The correct answer is: "+ correct);
+    $("#questions").append("<h2>YOU ARE CORRECT!</h2>");
+    $("#questions").append("<img class=answerImage src=" + questions[questionIndex].imgUrl +">");
+    correctAnswers++;
+    reset();
+  } else {
+    $("#questions").text("The correct answer is: "+ correct);
+    $("#questions").append("<h2>YOU ARE INCORRECT!</h2>");
+    $("#questions").append("<img class = answerImage src= https://media.giphy.com/media/9Y5BbDSkSTiY8/giphy.gif>");
+    incorrectAnswers++;
+    reset();
+  };
 };
 
 function timer() {
