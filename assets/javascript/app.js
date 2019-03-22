@@ -5,7 +5,6 @@ var questionTimer;
 var correctAnswers;
 var incorrectAnswers;
 var unansweredQuestions;
-var timerRunning = false;
 var correct;
 
 //create an object holding the questions with the answers
@@ -33,11 +32,35 @@ var questions = [
     answers : ["James Cameron", "Steven Spielberg", "Rob Reiner"],
     correct : "Rob Reiner",
     imgUrl: "https://media.giphy.com/media/CptgzXrClgwtG/giphy.gif"
+  },
+  { 
+    ask: "Which actor played the fictional character Dr. Emmett Brown in the Back to the Future trilogy?",
+    answers : ["Christopher Lloyd", "Steve Martin", "Richard Gere"],
+    correct : "Christopher Lloyd",
+    imgUrl: "https://media.giphy.com/media/hn45V8hBhRIpW/giphy.gif"
+  },
+  { 
+    ask: "The song “Eye of the Tiger” by the band Survivor was the theme song for what movie released in 1982?",
+    answers : ["Rocky", "Bloodsport", "Terminator"],
+    correct : "Rocky",
+    imgUrl: "https://media.giphy.com/media/11sN6nMjLT2INO/giphy.gif"
+  },
+  { 
+    ask: "Actress Gal Gadot starred in what American superhero film released in the summer of 2017?",
+    answers : ["Captain Marvel", "Wonder Woman", "Catwoman"],
+    correct : "Wonder Woman",
+    imgUrl: "https://media.giphy.com/media/26FPMoFGJlJQuwdzO/giphy.gif"
+  },
+  { 
+    ask: "Who played the female lead in the dystopian political thriller “V for Vendetta”?",
+    answers : ["Charlize Theron", "Natalie Portman", "Katie Holmes"],
+    correct : "Natalie Portman",
+    imgUrl: "https://media.giphy.com/media/cOpH5Jx0hjbzy/giphy.gif"
   }
 ]
 //hide answer buttons
 $(".answerBtn").prop("hidden", true);
-
+//click start button to start the game
 $("#startButton").on("click", function(){
   startGame();
 });
@@ -119,14 +142,14 @@ function reset(){
     setTimeout(function(){
       loadQuestions();
       questionTimer = 10;
-    }, 5000);
+    }, 3000);
   } else {
     setTimeout(function(){
-      console.log("game over")
-      $("#questions").text("Results")
-      $("#questions").append("Correct Answers: "+ correctAnswers)
-      $("#questions").append("Incorrect Answers: "+ incorrectAnswers)
-      $("#questions").append("Unanswered: "+ unansweredQuestions)
+      $("#timeRemaining").prop("hidden", true)
+      $("#questions").html("<h2>Results: </h2>");
+      $("#questions").append("<h2>Correct Answers: " + correctAnswers + "</h2>");
+      $("#questions").append("<h2>Incorrect Answers: " + incorrectAnswers + "</h2>");
+      $("#questions").append("<h2>Unanswered: " + unansweredQuestions + "</h2>");
     }, 3000);
   };
 };
